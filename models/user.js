@@ -15,9 +15,9 @@ var userSchema = new Schema({
     password: { type: String, required: [true, 'The password is required'] },
     img: { type: String, required: false },
     role: { type: String, required: true, default: 'USER_ROLE', enum: rolesValid }
-});
+}, { collection: 'users' });
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique' });
 
 // Export a model from Monggoe. 'users' name of the collection. 
-module.exports = mongooge.model('User', userSchema, 'users');
+module.exports = mongooge.model('User', userSchema);

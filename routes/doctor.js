@@ -1,12 +1,11 @@
 // Requires
 const express = require('express');
 const app = express();
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+const Doctor = require('../models/doctor');
 const mdAuthentication = require('../middlewares/authentication');
 
 //=====================================
-// Get Users
+// Get Doctors
 //=====================================
 app.get('/', function(req, res, next) {
 
@@ -14,32 +13,66 @@ app.get('/', function(req, res, next) {
     fromRows = Number(fromRows);
 
     // field to show
-    User.find({}, 'name email img rol')
+    Doctor.find({})
         .skip(fromRows)
         .limit(5)
+        .populate('user', "name email")
+        .populate('hospital')
         .exec(
-            (err, data) => {
+            (err, doctors) => {
 
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        mensaje: 'Error loading users.',
+                        mensaje: 'Error loading doctors.',
                         errors: err
                     });
                 }
 
-                User.count({}, (err, count) => {
+                Doctor.count({}, (err, count) => {
                     res.status(200).json({
                         ok: true,
                         rows: count,
-                        usuarios: data
+                        doctors: doctors
                     });
                 });
             });
 });
 
 //=====================================
-// Update user
+// Add new doctor
+//=====================================
+
+app.post('/', [mdAuthentication.verifyToken], (req, res, next) => {
+    const body = req.body;
+
+    var doctor = new Doctor({
+        name: body.name,
+        img: body.img,
+        user: req.user._id,
+        hospital: body.hospital
+    });
+
+    doctor.save((err, doctorSave) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'Error to create a doctor.',
+                errors: err
+            });
+        }
+
+        res.status(201).json({
+            ok: true,
+            doctor: doctorSave,
+            usertoken: req.user
+        });
+    });
+});
+
+//=====================================
+// Update doctor
 //=====================================
 
 app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
@@ -47,43 +80,41 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
     const body = req.body;
     const id = req.params.id;
 
-    User.findById(id, (err, user) => {
+    Doctor.findById(id, (err, doctor) => {
 
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error get user.',
+                mensaje: 'Error get doctor.',
                 errors: err
             });
         }
 
-        if (!user) {
+        if (!doctor) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'The user with id' + id + ' no exists.',
-                errors: { message: 'No exists user with this Id' }
+                mensaje: 'The doctor with id' + id + ' no exists.',
+                errors: { message: 'No exists doctor with this Id' }
             });
         }
 
-        user.name = body.name;
-        user.email = body.email;
-        user.role = body.role;
+        doctor.name = body.name;
+        doctor.user = body.user._id;
+        doctor.hospital = body.hospital;
 
-        user.save((err, userSave) => {
+        doctor.save((err, doctorSave) => {
 
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'Error to update user.',
+                    mensaje: 'Error to update doctor.',
                     errors: err
                 });
             }
 
-            userSave.password = '.';
-
             res.status(200).json({
                 ok: true,
-                user: userSave,
+                doctor: doctorSave,
                 usertoken: req.user
             });
         });
@@ -91,61 +122,25 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
 });
 
 //=====================================
-// Add new user
-//=====================================
-
-app.post('/', [mdAuthentication.verifyToken], (req, res, next) => {
-    const body = req.body;
-
-    var user = new User({
-        name: body.name,
-        email: body.email,
-        password: bcrypt.hashSync(body.password, 10),
-        img: body.img,
-        role: body.role
-    });
-
-    user.save((err, userSave) => {
-
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                mensaje: 'Error to create user.',
-                errors: err
-            });
-        }
-
-        userSave.password = '.';
-        res.status(201).json({
-            ok: true,
-            user: userSave,
-            usertoken: req.user
-        });
-    });
-});
-
-//=====================================
-// Delete user
+// Delete doctor
 //=====================================
 app.delete('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
     const id = req.params.id;
 
-    User.findByIdAndDelete(id, (err, userDeleted) => {
+    Doctor.findByIdAndDelete(id, (err, doctorDeleted) => {
 
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error to delete user.',
+                mensaje: 'Error to delete doctor.',
                 errors: err
             });
         }
 
-        userDeleted.password = '.';
         res.status(200).json({
             ok: true,
-            body: userDeleted
+            body: doctorDeleted
         });
-
     });
 });
 
