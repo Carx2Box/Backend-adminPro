@@ -74,7 +74,7 @@ app.get('/all/:search', function(req, res, next) {
 function searchUsers(searcher, regex) {
 
     return new Promise((resolve, reject) => {
-        User.find({}, 'nombre email role')
+        User.find({}, 'name email role')
             .or([{ name: regex }, { email: searcher }])
             .exec((err, users) => {
                 if (err) {
