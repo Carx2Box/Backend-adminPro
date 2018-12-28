@@ -94,7 +94,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
 // Add new user
 //=====================================
 
-app.post('/', [mdAuthentication.verifyToken], (req, res, next) => {
+app.post('/', (req, res, next) => {
     const body = req.body;
 
     var user = new User({
