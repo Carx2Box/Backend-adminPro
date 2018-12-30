@@ -29,7 +29,7 @@ app.put('/:type/:id', [mdCollectionValidator.valideCollection], function(req, re
         });
     }
 
-    let uploadFile = req.files.imagen;
+    let uploadFile = req.files.image;
     let splitFileName = uploadFile.name.split('.');
     const extension = splitFileName[splitFileName.length - 1];
 
