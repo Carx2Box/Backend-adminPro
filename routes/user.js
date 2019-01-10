@@ -14,7 +14,7 @@ app.get('/', function(req, res, next) {
     fromRows = Number(fromRows);
 
     // field to show
-    User.find({}, 'name email img rol')
+    User.find({}, 'name email img role google')
         .skip(fromRows)
         .limit(5)
         .exec(
@@ -32,7 +32,7 @@ app.get('/', function(req, res, next) {
                     res.status(200).json({
                         ok: true,
                         rows: count,
-                        usuarios: data
+                        users: data
                     });
                 });
             });

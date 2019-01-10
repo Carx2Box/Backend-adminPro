@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-
 // CORS
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
