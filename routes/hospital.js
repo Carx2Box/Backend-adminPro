@@ -4,19 +4,57 @@ const app = express();
 const Hospital = require('../models/hospital');
 const mdAuthentication = require('../middlewares/authentication');
 
+
+//=====================================
+// Get Hospitals by Id
+//=====================================
+app.get('/:id', function(req, res, next) {
+
+    let id = req.params.id;
+
+    Hospital.findById(id)
+        .populate('user', "name img email")
+        .exec((err, hospital) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error loading hospital.',
+                    errors: err
+                });
+            }
+
+            if (!hospital) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'The hospital with id' + id + ' no exists.',
+                    errors: { message: 'No exists hospital with this Id' }
+                });
+            }
+
+            res.status(200).json({
+                ok: true,
+                hospital: hospital
+            });
+        });
+});
+
 //=====================================
 // Get Hospitals
 //=====================================
 app.get('/', function(req, res, next) {
 
     let fromRows = req.query.fromRows || 0;
+    let limit = req.query.limit || 99999;
+
     fromRows = Number(fromRows);
+    limit = Number(limit);
 
     // field to show
     Hospital.find({})
         .skip(fromRows)
-        .limit(5)
-        .populate('user', "name email")
+        .limit(limit)
+        .populate('user', "name img email")
         .exec((err, hospitals) => {
 
             if (err) {
@@ -36,6 +74,7 @@ app.get('/', function(req, res, next) {
             });
         });
 });
+
 
 //=====================================
 // Add new hospital
