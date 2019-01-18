@@ -32,6 +32,24 @@ async function verify(token) {
     };
 }
 
+var mdAuthentication = require('../middlewares/authentication');
+
+// ================================
+// Renovar token
+// ================================
+app.get('/renewtoken', [mdAuthentication.verifyToken], (req, res) => {
+
+    var token = jwt.sign({ user: req.user }, seed, { expiresIn: 14400 });
+
+    res.status(200).json({
+        ok: true,
+        token: token
+    });
+});
+
+// ================================
+// Authentication of Google
+// ================================
 app.post('/google', async(req, res, next) => {
 
     const token = req.body.token;
