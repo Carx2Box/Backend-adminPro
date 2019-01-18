@@ -4,6 +4,42 @@ const app = express();
 const Doctor = require('../models/doctor');
 const mdAuthentication = require('../middlewares/authentication');
 
+
+//=====================================
+// Get Doctor by Id
+//=====================================
+app.get('/:id', function(req, res, next) {
+
+    let id = req.params.id;
+
+    Doctor.findById(id)
+        .populate('user', "name email")
+        .populate('hospital')
+        .exec((err, doctor) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'Error loading doctor.',
+                    errors: err
+                });
+            }
+
+            if (!doctor) {
+                return res.status(500).json({
+                    ok: false,
+                    mensaje: 'The doctor with id' + id + ' no exists.',
+                    errors: { message: 'No exists doctor with this Id' }
+                });
+            }
+
+            res.status(200).json({
+                ok: true,
+                doctor: doctor
+            });
+        });
+});
+
 //=====================================
 // Get Doctors
 //=====================================

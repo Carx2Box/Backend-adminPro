@@ -107,8 +107,10 @@ function uploadForType(type, id, nameFile, res) {
                 });
             }
 
-            if (fs.existsSync(oldPath)) {
-                fs.unlinkSync(oldPath);
+            if (doctor.img !== '') {
+                if (fs.existsSync(oldPath)) {
+                    fs.unlinkSync(oldPath);
+                }
             }
 
             doctor.img = nameFile;
