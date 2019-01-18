@@ -13,7 +13,7 @@ exports.verifyToken = function(req, res, next) {
         if (err) {
             return res.status(401).json({
                 ok: false,
-                mensaje: 'Invalid token.',
+                message: 'Invalid token.',
                 errors: err
             });
         }
@@ -44,7 +44,7 @@ exports.verifyAdminRoleOrSameUser = function(req, res, next) {
 
     return res.status(401).json({
         ok: false,
-        mensaje: 'Token incorrect.',
+        message: 'Token incorrect.',
         errors: { message: 'Token incorrect.' }
     });
 };

@@ -29,7 +29,7 @@ app.get('/collection/:table/:search', function(req, res, next) {
         default:
             return res.status(400).json({
                 ok: false,
-                //message: 'The valid types are: users, hospitals and doctors',
+                message: 'The valid types are: users, hospitals and doctors',
                 error: `Type_Data/colección no valido`
             });
     }

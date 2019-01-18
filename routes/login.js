@@ -47,7 +47,7 @@ app.post('/google', async(req, res, next) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        mensaje: 'Error al buscar usuario',
+                        message: 'Error al buscar usuario',
                         errors: err
                     });
                 }
@@ -56,7 +56,7 @@ app.post('/google', async(req, res, next) => {
                     if (userDB.google === false) {
                         return res.status(400).json({
                             ok: false,
-                            mensaje: 'Must be the authentication normal',
+                            message: 'Must be the authentication normal',
                             errors: err
                         });
                     } else {
@@ -103,7 +103,7 @@ app.post('/', (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error al buscar usuario',
+                message: 'Error al buscar usuario',
                 errors: err
             });
         }
@@ -111,16 +111,16 @@ app.post('/', (req, res, next) => {
         if (!userDB) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Incorrect credentials',
-                errors: err
+                message: 'Incorrect credentials',
+                errors: 'Incorrect credentials'
             });
         }
 
         if (!bcrypt.compareSync(body.password, userDB.password)) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Incorrect credentials',
-                errors: err
+                message: 'Incorrect credentials',
+                errors: 'Incorrect credentials'
             });
         }
 

@@ -20,7 +20,7 @@ app.get('/:id', function(req, res, next) {
             if (err) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'Error loading doctor.',
+                    message: 'Error loading doctor.',
                     errors: err
                 });
             }
@@ -28,7 +28,7 @@ app.get('/:id', function(req, res, next) {
             if (!doctor) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'The doctor with id' + id + ' no exists.',
+                    message: 'The doctor with id' + id + ' no exists.',
                     errors: { message: 'No exists doctor with this Id' }
                 });
             }
@@ -60,7 +60,7 @@ app.get('/', function(req, res, next) {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        mensaje: 'Error loading doctors.',
+                        message: 'Error loading doctors.',
                         errors: err
                     });
                 }
@@ -94,7 +94,7 @@ app.post('/', [mdAuthentication.verifyToken], (req, res, next) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Error to create a doctor.',
+                message: 'Error to create a doctor.',
                 errors: err
             });
         }
@@ -121,7 +121,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error get doctor.',
+                message: 'Error get doctor.',
                 errors: err
             });
         }
@@ -129,7 +129,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
         if (!doctor) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'The doctor with id' + id + ' no exists.',
+                message: 'The doctor with id' + id + ' no exists.',
                 errors: { message: 'No exists doctor with this Id' }
             });
         }
@@ -143,7 +143,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'Error to update doctor.',
+                    message: 'Error to update doctor.',
                     errors: err
                 });
             }
@@ -168,7 +168,7 @@ app.delete('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error to delete doctor.',
+                message: 'Error to delete doctor.',
                 errors: err
             });
         }

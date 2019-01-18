@@ -19,7 +19,7 @@ app.get('/:id', function(req, res, next) {
             if (err) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'Error loading hospital.',
+                    message: 'Error loading hospital.',
                     errors: err
                 });
             }
@@ -27,7 +27,7 @@ app.get('/:id', function(req, res, next) {
             if (!hospital) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'The hospital with id' + id + ' no exists.',
+                    message: 'The hospital with id' + id + ' no exists.',
                     errors: { message: 'No exists hospital with this Id' }
                 });
             }
@@ -60,7 +60,7 @@ app.get('/', function(req, res, next) {
             if (err) {
                 return res.status(500).json({
                     ok: false,
-                    mensaje: 'Error loading hospitals.',
+                    message: 'Error loading hospitals.',
                     errors: err
                 });
             }
@@ -93,7 +93,7 @@ app.post('/', [mdAuthentication.verifyToken], (req, res, next) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Error to create a hospital.',
+                message: 'Error to create a hospital.',
                 errors: err
             });
         }
@@ -120,7 +120,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error get hospital.',
+                message: 'Error get hospital.',
                 errors: err
             });
         }
@@ -128,7 +128,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
         if (!hospital) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'The hospital with id' + id + ' no exists.',
+                message: 'The hospital with id' + id + ' no exists.',
                 errors: { message: 'No exists hospital with this Id' }
             });
         }
@@ -141,7 +141,7 @@ app.put('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'Error to update hospital.',
+                    message: 'Error to update hospital.',
                     errors: err
                 });
             }
@@ -166,7 +166,7 @@ app.delete('/:id', [mdAuthentication.verifyToken], (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error to delete hospital.',
+                message: 'Error to delete hospital.',
                 errors: err
             });
         }

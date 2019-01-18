@@ -23,7 +23,7 @@ app.get('/', function(req, res, next) {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
-                        mensaje: 'Error loading users.',
+                        message: 'Error loading users.',
                         errors: err
                     });
                 }
@@ -52,7 +52,7 @@ app.put('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyAdminRoleO
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error get user.',
+                message: 'Error get user.',
                 errors: err
             });
         }
@@ -60,7 +60,7 @@ app.put('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyAdminRoleO
         if (!user) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'The user with id' + id + ' no exists.',
+                message: 'The user with id' + id + ' no exists.',
                 errors: { message: 'No exists user with this Id' }
             });
         }
@@ -74,7 +74,7 @@ app.put('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyAdminRoleO
             if (err) {
                 return res.status(400).json({
                     ok: false,
-                    mensaje: 'Error to update user.',
+                    message: 'Error to update user.',
                     errors: err
                 });
             }
@@ -110,7 +110,7 @@ app.post('/', (req, res, next) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
-                mensaje: 'Error to create user.',
+                message: 'Error to create user.',
                 errors: err
             });
         }
@@ -135,7 +135,7 @@ app.delete('/:id', [mdAuthentication.verifyToken, mdAuthentication.verifyAdminRo
         if (err) {
             return res.status(500).json({
                 ok: false,
-                mensaje: 'Error to delete user.',
+                message: 'Error to delete user.',
                 errors: err
             });
         }
