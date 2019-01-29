@@ -1,6 +1,6 @@
 // Requires
 const express = require('express');
-const mongoose = require('mongoose');
+const connection = require('./models/connection');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -24,11 +24,13 @@ const uploadRouters = require('./routes/upload');
 const imagesRoutes = require('./routes/images');
 
 // Connection to database
-mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', (err, res) => {
-    if (err) throw err;
-
-    console.log('Database \x1b[32m%s\x1b[0m', 'online');
-});
+connection.connect()
+    .then(result => {
+        console.log('Database \x1b[32m%s\x1b[0m', 'online');
+    })
+    .catch(error => {
+        throw err;
+    });
 
 // Server index config
 // const serveIndex = require('serve-index');
