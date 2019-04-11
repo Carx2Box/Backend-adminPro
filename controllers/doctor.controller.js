@@ -12,9 +12,7 @@ DoctorController.prototype.getById = (req, res, next) => {
         .exec((err, doctor) => {
 
             if (err) {
-
-                res.status(500);
-                return res.json({
+                return res.status(500).json({
                     ok: false,
                     message: 'Error loading doctor.',
                     errors: err
@@ -23,16 +21,14 @@ DoctorController.prototype.getById = (req, res, next) => {
 
             if (!doctor) {
 
-                res.status(404);
-                res.json({
+                return res.status(404).json({
                     ok: false,
                     message: 'The doctor with id' + id + ' no exists.',
                     errors: { message: 'No exists doctor with this Id' }
                 });
             }
 
-            res.status(200);
-            return res.json({
+            return res.status(200).json({
                 ok: true,
                 doctor: doctor
             });
@@ -60,7 +56,7 @@ DoctorController.prototype.getAll = (req, res, next) => {
                 }
 
                 Doctor.countDocuments({}, (err, count) => {
-                    res.status(200).json({
+                    return res.status(200).json({
                         ok: true,
                         rows: count,
                         doctors: doctors
@@ -134,7 +130,7 @@ DoctorController.prototype.update = (req, res, next) => {
                 });
             }
 
-            res.status(200).json({
+            return res.status(200).json({
                 ok: true,
                 doctor: doctorSave,
                 usertoken: req.user
@@ -156,7 +152,7 @@ DoctorController.prototype.delete = (req, res, next) => {
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             ok: true,
             body: doctorDeleted
         });

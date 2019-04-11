@@ -22,6 +22,7 @@ const doctorRoutes = require('./routes/doctor');
 const searcherRoutes = require('./routes/searcher');
 const uploadRouters = require('./routes/upload');
 const imagesRoutes = require('./routes/images');
+const countryRoutes = require('./routes/contry');
 
 // Connection to database
 connection.connect()
@@ -49,6 +50,7 @@ app
     .use('/search', searcherRoutes)
     .use('/upload', uploadRouters)
     .use('/img', imagesRoutes)
+    .use('/country', countryRoutes)
     // Default route
     .use('/', appRoutes);
 
